@@ -7,6 +7,7 @@ import torch.optim as optim
 from collections import deque
 import random
 
+
 # Constants
 STATE_SIZE = 10
 ACTION_SIZE = 4
@@ -16,8 +17,15 @@ GAMMA = 0.99
 LR = 0.001
 NUM_EPISODES = 1000
 EVAL_EPISODES = 10
+TAU = 0.01
+EPSILON_START = 1.0
+EPSILON_END = 0.1
+EPSILON_DECAY = 0.995
 
-# Mô hình môi trường phát hiện xâm nhập mạng
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+
+# Network Intrusion Environment
 class NetworkIntrusionEnv(gym.Env):
     def __init__(self):
         super(NetworkIntrusionEnv, self).__init__()
@@ -32,23 +40,16 @@ class NetworkIntrusionEnv(gym.Env):
         return self.state
 
     def step(self, action):
-        reward = 0
-        done = False
-        if action == 1 and self.state[0] > 0.8:  # Nếu tấn công mạnh
-            reward = 1
-        elif action == 1 and self.state[0] <= 0.8:
-            reward = -1  # Chặn nhầm
+        reward = 1 if (action == 1 and self.state[0] > 0.8) else -1 if action == 1 else 0
         self.state = np.random.rand(self.state_size)
-        done = np.random.rand() > 0.95  # Xác suất kết thúc episode
+        done = np.random.rand() > 0.95
         return self.state, reward, done, {}
 
-# Noisy Linear Layer cho exploration hiệu quả
+
+# Noisy Linear Layer
 class NoisyLinear(nn.Module):
     def __init__(self, in_features, out_features, std_init=0.5):
         super(NoisyLinear, self).__init__()
-        self.in_features = in_features
-        self.out_features = out_features
-        self.std_init = std_init
         self.weight_mu = nn.Parameter(torch.empty(out_features, in_features))
         self.weight_sigma = nn.Parameter(torch.empty(out_features, in_features))
         self.register_buffer("weight_epsilon", torch.empty(out_features, in_features))
@@ -56,9 +57,9 @@ class NoisyLinear(nn.Module):
         self.reset_noise()
 
     def reset_parameters(self):
-        mu_range = 1 / np.sqrt(self.in_features)
+        mu_range = 1 / np.sqrt(self.weight_mu.size(1))
         self.weight_mu.data.uniform_(-mu_range, mu_range)
-        self.weight_sigma.data.fill_(self.std_init / np.sqrt(self.in_features))
+        self.weight_sigma.data.fill_(0.5 / np.sqrt(self.weight_mu.size(1)))
 
     def reset_noise(self):
         self.weight_epsilon.normal_()
@@ -66,7 +67,8 @@ class NoisyLinear(nn.Module):
     def forward(self, x):
         return nn.functional.linear(x, self.weight_mu + self.weight_sigma * self.weight_epsilon)
 
-# Mô hình DQN với Noisy Layers
+
+# DQN Model
 class DQN(nn.Module):
     def __init__(self, state_size, action_size):
         super(DQN, self).__init__()
@@ -79,29 +81,19 @@ class DQN(nn.Module):
         x = torch.relu(self.fc2(x))
         return self.fc3(x)
 
-# Khởi tạo môi trường và mô hình
-env = NetworkIntrusionEnv()
-state_size = env.state_size
-action_size = env.action_size
-model = DQN(state_size, action_size)
-target_model = DQN(state_size, action_size)
-target_model.load_state_dict(model.state_dict())
-target_model.eval()
-optimizer = optim.Adam(model.parameters(), lr=LR)
-memory = deque(maxlen=BUFFER_SIZE)
 
-# Huấn luyện DQN với Double DQN & PER
-def train_model():
+# Training Function
+def train_model(model, target_model, optimizer, memory):
     if len(memory) < BATCH_SIZE:
         return
     batch = random.sample(memory, BATCH_SIZE)
     states, actions, rewards, next_states, dones = zip(*batch)
 
-    states = torch.FloatTensor(states)
-    actions = torch.LongTensor(actions).unsqueeze(1)
-    rewards = torch.FloatTensor(rewards)
-    next_states = torch.FloatTensor(next_states)
-    dones = torch.FloatTensor(dones)
+    states = torch.FloatTensor(states).to(device)
+    actions = torch.LongTensor(actions).unsqueeze(1).to(device)
+    rewards = torch.FloatTensor(rewards).to(device)
+    next_states = torch.FloatTensor(next_states).to(device)
+    dones = torch.FloatTensor(dones).to(device)
 
     best_action = model(next_states).argmax(dim=1, keepdim=True)
     next_q = target_model(next_states).gather(1, best_action).squeeze(1).detach()
@@ -113,45 +105,64 @@ def train_model():
     loss.backward()
     optimizer.step()
 
-# Huấn luyện mô hình
+
+# Soft Update Function
+def soft_update(target, source, tau):
+    for target_param, source_param in zip(target.parameters(), source.parameters()):
+        target_param.data.copy_(tau * source_param.data + (1.0 - tau) * target_param.data)
+
+
+# Initialize environment, models, and optimizer
+env = NetworkIntrusionEnv()
+model = DQN(STATE_SIZE, ACTION_SIZE).to(device)
+target_model = DQN(STATE_SIZE, ACTION_SIZE).to(device)
+target_model.load_state_dict(model.state_dict())
+target_model.eval()
+optimizer = optim.Adam(model.parameters(), lr=LR)
+memory = deque(maxlen=BUFFER_SIZE)
+
+# Training Loop
+epsilon = EPSILON_START
 for episode in range(NUM_EPISODES):
     state = env.reset()
     total_reward = 0
     done = False
 
     while not done:
-        state_tensor = torch.FloatTensor(state)
-        q_values = model(state_tensor)
-        action = torch.argmax(q_values).item()
+        if np.random.rand() < epsilon:
+            action = env.action_space.sample()
+        else:
+            with torch.no_grad():
+                action = model(torch.FloatTensor(state).to(device)).argmax().item()
+
         next_state, reward, done, _ = env.step(action)
         memory.append((state, action, reward, next_state, done))
-        train_model()
+        train_model(model, target_model, optimizer, memory)
         state = next_state
         total_reward += reward
 
-    if episode % 1000 == 0:
-        target_model.load_state_dict(model.state_dict())
+    epsilon = max(EPSILON_END, epsilon * EPSILON_DECAY)
+    soft_update(target_model, model, TAU)
 
     if episode % 100 == 0:
-        print(f"Episode {episode}, Total Reward: {total_reward}")
 
-# Đánh giá mô hình
-def evaluate_model(env, model, num_episodes=EVAL_EPISODES):
-    total_rewards = []
-    for _ in range(num_episodes):
-        state = env.reset()
-        total_reward = 0
-        done = False
-        while not done:
-            state_tensor = torch.FloatTensor(state)
-            q_values = model(state_tensor)
-            action = torch.argmax(q_values).item()
-            next_state, reward, done, _ = env.step(action)
-            total_reward += reward
-            state = next_state
-        total_rewards.append(total_reward)
-    avg_reward = np.mean(total_rewards)
-    print(f"Average Reward: {avg_reward}")
-    return avg_reward
+        # Evaluation Function
+        def evaluate_model(env, model, num_episodes=EVAL_EPISODES):
+            total_rewards = []
+            for _ in range(num_episodes):
+                state = env.reset()
+                total_reward = 0
+                done = False
+                while not done:
+                    with torch.no_grad():
+                        action = model(torch.FloatTensor(state).to(device)).argmax().item()
+                    state, reward, done, _ = env.step(action)
+                    total_reward += reward
+                total_rewards.append(total_reward)
+            avg_reward = np.mean(total_rewards)
+            print(f"Average Reward: {avg_reward}")
+            return avg_reward
 
-evaluate_model(env, model)
+
+        evaluate_model(env, model)
+        print(f"Episode {episode}, Total Reward: {total_reward}, Epsilon: {epsilon:.2f}")
