@@ -13,11 +13,11 @@ from torch.utils.tensorboard import SummaryWriter
 # Constants
 STATE_SIZE = 10
 ACTION_SIZE = 4
-BUFFER_SIZE = 40000
+BUFFER_SIZE = 50000
 BATCH_SIZE = 64
 GAMMA = 0.99
 LR = 0.0005
-NUM_EPISODES = 2000
+NUM_EPISODES = 4000
 EVAL_INTERVAL = 100
 TAU = 0.01
 EPSILON_START = 1.0
@@ -91,9 +91,9 @@ class DuelingDQN(nn.Module):
 # Training Function
 def train_model(model, target_model, optimizer, memory):
     if len(memory) < BATCH_SIZE:
-        return 0  # Return 0 loss if no training is done
+        return 0
     batch = random.sample(memory, BATCH_SIZE)
-    batch = np.array(batch, dtype=object)  # Chuyển về numpy array
+    batch = np.array(batch, dtype=object)
     states = np.vstack(batch[:, 0])
     actions = np.array(batch[:, 1], dtype=np.int64).reshape(-1, 1)
     rewards = np.array(batch[:, 2], dtype=np.float32)
@@ -127,7 +127,7 @@ def soft_update(target, source, tau):
 
 
 # Evaluation Function
-def evaluate_model(env, model, num_episodes=10):
+def evaluate_model(env, model, num_episodes=20):
     total_rewards = []
     for _ in range(num_episodes):
         state = env.reset()
