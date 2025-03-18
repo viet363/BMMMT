@@ -7,33 +7,7 @@
     <list default="true" id="405d577f-6fa7-44d4-b007-7eff06a5dceb" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DQNRL.py" beforeDir="false" afterPath="$PROJECT_DIR$/DQNRL.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dueling_dqn_model.pth" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/runs/Mar16_23-21-40_LQV/events.out.tfevents.1742142100.LQV.23980.0" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/runs/Mar16_23-22-48_LQV/events.out.tfevents.1742142168.LQV.7968.0" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/runs/Mar16_23-26-08_LQV/events.out.tfevents.1742142368.LQV.12488.0" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/runs/Mar16_23-27-48_LQV/events.out.tfevents.1742142468.LQV.8496.0" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/runs/Mar16_23-31-34_LQV/events.out.tfevents.1742142694.LQV.22076.0" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/runs/Mar16_23-35-12_LQV/events.out.tfevents.1742142912.LQV.27312.0" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/runs/Mar16_23-42-20_LQV/events.out.tfevents.1742143340.LQV.9512.0" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/runs/Mar16_23-45-08_LQV/events.out.tfevents.1742143508.LQV.12396.0" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/runs/Mar16_23-46-12_LQV/events.out.tfevents.1742143572.LQV.4488.0" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/runs/Mar16_23-55-20_LQV/events.out.tfevents.1742144120.LQV.2548.0" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/runs/Mar16_23-57-44_LQV/events.out.tfevents.1742144264.LQV.10000.0" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/runs/Mar17_00-00-58_LQV/events.out.tfevents.1742144458.LQV.25040.0" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/runs/Mar17_00-04-47_LQV/events.out.tfevents.1742144687.LQV.3760.0" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/runs/Mar17_00-05-30_LQV/events.out.tfevents.1742144730.LQV.11588.0" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/runs/Mar17_00-16-19_LQV/events.out.tfevents.1742145379.LQV.15704.0" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/runs/Mar17_00-18-07_LQV/events.out.tfevents.1742145487.LQV.25988.0" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/runs/Mar17_22-20-26_LQV/events.out.tfevents.1742224826.LQV.17168.0" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/runs/Mar17_22-22-54_LQV/events.out.tfevents.1742224974.LQV.15996.0" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/runs/Mar17_22-25-07_LQV/events.out.tfevents.1742225107.LQV.27384.0" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/runs/Mar17_22-26-27_LQV/events.out.tfevents.1742225187.LQV.9152.0" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/runs/Mar17_22-27-19_LQV/events.out.tfevents.1742225239.LQV.25652.0" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/runs/Mar17_22-29-43_LQV/events.out.tfevents.1742225383.LQV.10444.0" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/runs/Mar17_22-30-44_LQV/events.out.tfevents.1742225444.LQV.15508.0" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/runs/Mar17_22-34-19_LQV/events.out.tfevents.1742225659.LQV.19772.0" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/runs/Mar17_22-35-31_LQV/events.out.tfevents.1742225731.LQV.26540.0" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/runs/Mar17_22-39-31_LQV/events.out.tfevents.1742225971.LQV.18112.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RL.py" beforeDir="false" afterPath="$PROJECT_DIR$/RL.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -67,7 +41,7 @@
     "Python.test.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "demo",
+    "git-widget-placeholder": "DemoGK",
     "ignore.virus.scanning.warn.message": "true",
     "settings.editor.selected.configurable": "preferences.fileTypes"
   }
