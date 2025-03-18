@@ -16,7 +16,7 @@ ACTION_SIZE = 4
 BUFFER_SIZE = 50000
 BATCH_SIZE = 64
 GAMMA = 0.99
-LR = 0.0005
+LR = 0.005
 NUM_EPISODES = 4000
 EVAL_INTERVAL = 100
 TAU = 0.01
@@ -43,7 +43,7 @@ class NetworkIntrusionEnv(gym.Env):
         return self.state
 
     def step(self, action):
-        reward = 1 if (action == 1 and self.state[0] > 0.8) else -1 if action == 1 else 0
+        reward = 1 if (action == 1 and self.state[0] > 0.85) else -1 if action == 1 else 0
         self.state = np.random.rand(self.state_size).astype(np.float32)
         done = np.random.rand() > 0.95
         return self.state, reward, done, {}
@@ -188,4 +188,4 @@ if __name__ == "__main__":
             print(f"Episode {episode}, Total Reward: {total_reward}, Epsilon: {epsilon:.2f}, Avg Reward: {avg_reward}")
 
     evaluate_model(env, model)
-    torch.save(model.state_dict(), "dueling_dqn_model.pth")
+    torch.save(model.state_dict(), "dueling_dqn_model")
