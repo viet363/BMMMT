@@ -1,0 +1,4 @@
+Starting training...
+Episode 0, Avg Eval Reward: 10304.00, Epsilon: 0.995, Reward: 58.0000
+Episode 10, Avg Eval Reward: 11952.40, Epsilon: 0.946, Reward: 684.0000
+Episode 20, Avg Eval Reward: 12097.60, Epsilon: 0.900, Reward: 1174.0000

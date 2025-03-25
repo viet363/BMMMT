@@ -8,6 +8,24 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DQNRL.py" beforeDir="false" afterPath="$PROJECT_DIR$/DQNRL.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/RL.py" beforeDir="false" afterPath="$PROJECT_DIR$/RL.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dueling_dqn_model" beforeDir="false" afterPath="$PROJECT_DIR$/dueling_dqn_model" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dueling_dqn_model.pth" beforeDir="false" afterPath="$PROJECT_DIR$/dueling_dqn_model.pth" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/runs/Mar17_23-36-31_LQV/events.out.tfevents.1742229391.LQV.1336.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/runs/Mar17_23-38-11_LQV/events.out.tfevents.1742229491.LQV.24836.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/runs/Mar17_23-39-19_LQV/events.out.tfevents.1742229559.LQV.26416.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/runs/Mar17_23-42-56_LQV/events.out.tfevents.1742229776.LQV.18644.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/runs/Mar17_23-43-51_LQV/events.out.tfevents.1742229831.LQV.19708.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/runs/Mar18_15-10-07_LQV/events.out.tfevents.1742285407.LQV.17748.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/runs/Mar18_15-11-24_LQV/events.out.tfevents.1742285484.LQV.25716.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/runs/Mar18_15-12-43_LQV/events.out.tfevents.1742285563.LQV.25736.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/runs/Mar18_20-06-55_LQV/events.out.tfevents.1742303215.LQV.14784.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/runs/Mar18_20-56-46_LQV/events.out.tfevents.1742306206.LQV.22560.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/runs/Mar18_20-58-53_LQV/events.out.tfevents.1742306333.LQV.18844.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/runs/Mar18_21-19-18_LQV/events.out.tfevents.1742307558.LQV.4976.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/runs/Mar18_21-28-56_LQV/events.out.tfevents.1742308136.LQV.3540.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/runs/Mar18_22-02-55_LQV/events.out.tfevents.1742310175.LQV.25772.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/runs/Mar18_22-20-52_LQV/events.out.tfevents.1742311252.LQV.14276.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/runs/Mar18_22-40-26_LQV/events.out.tfevents.1742312426.LQV.25432.0" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,19 +51,19 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python.DQNRL.executor": "Run",
-    "Python.DemoRL.executor": "Run",
-    "Python.RL.executor": "Run",
-    "Python.test.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "DemoGK",
-    "ignore.virus.scanning.warn.message": "true",
-    "settings.editor.selected.configurable": "preferences.fileTypes"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python.DQNRL.executor&quot;: &quot;Run&quot;,
+    &quot;Python.DemoRL.executor&quot;: &quot;Run&quot;,
+    &quot;Python.RL.executor&quot;: &quot;Run&quot;,
+    &quot;Python.test.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;DemoGK&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.fileTypes&quot;
   }
-}]]></component>
+}</component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>

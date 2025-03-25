@@ -7,9 +7,8 @@ import torch.optim as optim
 from collections import deque
 import random
 from torch.utils.tensorboard import SummaryWriter
-
-
-
+import sys
+sys.stdout.reconfigure(encoding='utf-8')
 # Constants
 STATE_SIZE = 10
 ACTION_SIZE = 4
@@ -17,7 +16,7 @@ BUFFER_SIZE = 50000
 BATCH_SIZE = 64
 GAMMA = 0.99
 LR = 0.005
-NUM_EPISODES = 200
+NUM_EPISODES = 1000
 EVAL_INTERVAL = 10
 TAU = 0.01
 EPSILON_START = 1.0
@@ -126,22 +125,39 @@ def soft_update(target, source, tau):
         target_param.data.copy_(tau * source_param.data + (1.0 - tau) * target_param.data)
 
 
-# Evaluation Function
-def evaluate_model(env, model, num_episodes=20):
+# Enhanced Evaluation Function
+def evaluate_model(env, model, writer, step, num_episodes=5):
     total_rewards = []
+    total_steps = []
     for _ in range(num_episodes):
         state = env.reset()
         total_reward = 0
+        steps = 0
         done = False
         while not done:
             with torch.no_grad():
                 action = model(torch.FloatTensor(state).to(device)).argmax().item()
             state, reward, done, _ = env.step(action)
             total_reward += reward
+            steps += 1
         total_rewards.append(total_reward)
+        total_steps.append(steps)
+
     avg_reward = np.mean(total_rewards)
     std_reward = np.std(total_rewards)
-    print(f"Average Reward: {avg_reward}, Std Reward: {std_reward}")
+    max_reward = np.max(total_rewards)
+    min_reward = np.min(total_rewards)
+    avg_steps = np.mean(total_steps)
+
+    # Ghi các chỉ số đánh giá vào TensorBoard
+    writer.add_scalar("Evaluation/Average Reward", avg_reward, step)
+    writer.add_scalar("Evaluation/Std Reward", std_reward, step)
+    writer.add_scalar("Evaluation/Max Reward", max_reward, step)
+    writer.add_scalar("Evaluation/Min Reward", min_reward, step)
+    writer.add_scalar("Evaluation/Average Steps", avg_steps, step)
+
+    print(
+        f"Evaluation at Step {step}: Avg Reward: {avg_reward:.2f}, Std: {std_reward:.2f}, Max: {max_reward}, Min: {min_reward}, Avg Steps: {avg_steps:.2f}")
     return avg_reward
 
 
@@ -156,12 +172,15 @@ if __name__ == "__main__":
     writer = SummaryWriter()
 
     epsilon = EPSILON_START
+    global_step = 0
+
     for episode in range(NUM_EPISODES):
         state = env.reset()
         total_reward = 0
         done = False
 
         while not done:
+            global_step += 1
             if np.random.rand() < epsilon:
                 action = env.action_space.sample()
             else:
@@ -175,17 +194,17 @@ if __name__ == "__main__":
 
         if len(memory) > BATCH_SIZE:
             loss = train_model(model, target_model, optimizer, memory)
-            writer.add_scalar("Loss", loss, episode)
+            writer.add_scalar("Training/Loss", loss, episode)
 
         soft_update(target_model, model, TAU)
         epsilon = max(EPSILON_END, epsilon * EPSILON_DECAY)
-        writer.add_scalar("Total Reward", total_reward, episode)
-        writer.add_scalar("Epsilon", epsilon, episode)
+        writer.add_scalar("Training/Total Reward", total_reward, episode)
+        writer.add_scalar("Training/Epsilon", epsilon, episode)
 
         if episode % EVAL_INTERVAL == 0:
-            avg_reward = evaluate_model(env, model)
-            writer.add_scalar("Avg Reward", avg_reward, episode)
-            print(f"Episode {episode}, Total Reward: {total_reward}, Epsilon: {epsilon:.2f}, Avg Reward: {avg_reward}")
+            evaluate_model(env, model, writer, episode, num_episodes=5)
+            print(f"Episode {episode}, Total Reward: {total_reward}, Epsilon: {epsilon:.2f}")
 
-    evaluate_model(env, model)
+    # Đánh giá cuối cùng
+    evaluate_model(env, model, writer, NUM_EPISODES, num_episodes=10)
     torch.save(model.state_dict(), "dueling_dqn_model")
