@@ -7,25 +7,8 @@
     <list default="true" id="405d577f-6fa7-44d4-b007-7eff06a5dceb" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DQNRL.py" beforeDir="false" afterPath="$PROJECT_DIR$/DQNRL.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RL.py" beforeDir="false" afterPath="$PROJECT_DIR$/RL.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dueling_dqn_model" beforeDir="false" afterPath="$PROJECT_DIR$/dueling_dqn_model" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dueling_dqn_model.pth" beforeDir="false" afterPath="$PROJECT_DIR$/dueling_dqn_model.pth" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/runs/Mar17_23-36-31_LQV/events.out.tfevents.1742229391.LQV.1336.0" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/runs/Mar17_23-38-11_LQV/events.out.tfevents.1742229491.LQV.24836.0" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/runs/Mar17_23-39-19_LQV/events.out.tfevents.1742229559.LQV.26416.0" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/runs/Mar17_23-42-56_LQV/events.out.tfevents.1742229776.LQV.18644.0" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/runs/Mar17_23-43-51_LQV/events.out.tfevents.1742229831.LQV.19708.0" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/runs/Mar18_15-10-07_LQV/events.out.tfevents.1742285407.LQV.17748.0" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/runs/Mar18_15-11-24_LQV/events.out.tfevents.1742285484.LQV.25716.0" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/runs/Mar18_15-12-43_LQV/events.out.tfevents.1742285563.LQV.25736.0" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/runs/Mar18_20-06-55_LQV/events.out.tfevents.1742303215.LQV.14784.0" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/runs/Mar18_20-56-46_LQV/events.out.tfevents.1742306206.LQV.22560.0" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/runs/Mar18_20-58-53_LQV/events.out.tfevents.1742306333.LQV.18844.0" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/runs/Mar18_21-19-18_LQV/events.out.tfevents.1742307558.LQV.4976.0" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/runs/Mar18_21-28-56_LQV/events.out.tfevents.1742308136.LQV.3540.0" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/runs/Mar18_22-02-55_LQV/events.out.tfevents.1742310175.LQV.25772.0" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/runs/Mar18_22-20-52_LQV/events.out.tfevents.1742311252.LQV.14276.0" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/runs/Mar18_22-40-26_LQV/events.out.tfevents.1742312426.LQV.25432.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/kdd_test1.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/training_log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/training_log.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

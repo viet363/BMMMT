@@ -15,23 +15,20 @@ import os
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-# Hyperparameters
 BATCH_SIZE = 64
 GAMMA = 0.99
 LR = 0.005
-NUM_EPISODES = 1000
+NUM_EPISODES = 910
 EVAL_INTERVAL = 10
 TAU = 0.001
 EPSILON_START = 1.0
 EPSILON_END = 0.01
 EPSILON_DECAY = 0.995
-BUFFER_SIZE = 500000
+BUFFER_SIZE = 1000000
 CSV_FILE = "kdd_test.csv"
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-# Log file path
 LOG_FILE = "training_log.txt"
-
 
 def load_and_preprocess_data(csv_file=CSV_FILE):
     df = pd.read_csv(csv_file)
@@ -80,16 +77,16 @@ class DuelingDQN(nn.Module):
     def __init__(self, state_size, action_size):
         super().__init__()
         self.fc1 = nn.Linear(state_size, 256)
-        self.bn1 = nn.BatchNorm1d(256)  # Batch Normalization
+        self.bn1 = nn.BatchNorm1d(256)
         self.fc2 = nn.Linear(256, 128)
         self.dropout = nn.Dropout(0.3)
         self.value_stream = nn.Linear(128, 1)
         self.advantage_stream = nn.Linear(128, action_size)
 
     def forward(self, x):
-        if x.dim() == 1:  # Xử lý batch size = 1
+        if x.dim() == 1:
             x = x.unsqueeze(0)
-        if x.size(0) == 1:  # Nếu batch size là 1, bỏ qua BatchNorm
+        if x.size(0) == 1:
             x = torch.relu(self.fc1(x))
         else:
             x = torch.relu(self.bn1(self.fc1(x)))
@@ -153,7 +150,6 @@ def evaluate_model_on_test_data(model, X_test, y_test):
         state_tensor = torch.FloatTensor(state).to(device)
         with torch.no_grad():
             action = model(state_tensor).argmax().item()
-        # Gọi hàm phản hồi an ninh: nếu dự đoán là tấn công (1) thì thực hiện chặn
         take_security_action(action, state)
         y_pred.append(action)
 
@@ -169,11 +165,11 @@ def evaluate_model_on_test_data(model, X_test, y_test):
 # Hàm thực hiện hành động bảo mật: chặn nếu phát hiện tấn công, bỏ qua nếu bình thường.
 def take_security_action(action, state):
     if action == 1:
-        # Giả lập hành động chặn: in ra thông báo và ghi log.
+
         message = f"Attack detected at state {state}. Blocking connection."
         write_log(message)
     else:
-        # Bình thường, không thực hiện hành động chặn.
+
         write_log("Normal traffic: no blocking action taken.")
 
 
@@ -194,20 +190,32 @@ def plot_confusion_matrix(y_true, y_pred, labels=["Normal", "Anomaly"]):
     plt.show()
 
 
-# Hàm vẽ biểu đồ Learning Curve
-def plot_learning_curve(train_rewards, eval_rewards):
-    plt.figure(figsize=(10, 5))
+# Hàm vẽ biểu đồ Learning Curve và Loss Curve
+def plot_learning_curve(train_rewards, eval_rewards, losses):
+    plt.figure(figsize=(12, 5))
+
+    # Biểu đồ Reward
+    plt.subplot(1, 2, 1)
     plt.plot(train_rewards, label='Training Rewards')
     plt.plot(np.linspace(0, NUM_EPISODES, len(eval_rewards)), eval_rewards, label='Evaluation Rewards')
     plt.xlabel('Episodes')
     plt.ylabel('Rewards')
-    plt.title('Learning Curve')
+    plt.title('Learning Curve (Rewards)')
     plt.legend()
+
+    # Biểu đồ Loss
+    plt.subplot(1, 2, 2)
+    plt.plot(losses, label='Training Loss')
+    plt.xlabel('Episodes')
+    plt.ylabel('Loss')
+    plt.title('Loss Curve')
+    plt.legend()
+
+    plt.tight_layout()
     plt.show()
 
 
 def main():
-    # Khởi tạo log file
     if os.path.exists(LOG_FILE):
         os.remove(LOG_FILE)
     write_log("Starting training...")
@@ -226,6 +234,7 @@ def main():
     epsilon = EPSILON_START
     train_rewards = []
     eval_rewards = []
+    losses = []
 
     for episode in range(NUM_EPISODES):
         state = env.reset()
@@ -244,6 +253,7 @@ def main():
 
         if len(memory) > BATCH_SIZE:
             loss = train_model(policy_net, target_net, optimizer, memory)
+            losses.append(loss)
 
         soft_update(target_net, policy_net, TAU)
         epsilon = max(EPSILON_END, epsilon * EPSILON_DECAY)
@@ -263,7 +273,7 @@ def main():
     print(classification_report(y_test, y_pred, target_names=["Normal", "Anomaly"]))
 
     plot_confusion_matrix(y_test, y_pred, labels=["Normal", "Anomaly"])
-    plot_learning_curve(train_rewards, eval_rewards)
+    plot_learning_curve(train_rewards, eval_rewards, losses)
 
 
 if __name__ == "__main__":
